@@ -8,6 +8,7 @@ SCREEN_HEIGHT = 600
 SCREEN_WIDTH = 1100
 FPS = 30
 IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
+
 X_POS = 80
 Y_POS = 310
 JUMP_VEL = 8.5
