@@ -1,4 +1,5 @@
 import pygame
+
 import os
 
 # Global Constants
@@ -10,6 +11,7 @@ IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
 X_POS = 80
 Y_POS = 310
 JUMP_VEL = 8.5
+Y_POS_DUCK = 340
 
 # Assets Constants
 ICON = pygame.image.load(os.path.join(IMG_DIR, "DinoWallpaper.png"))
