@@ -1,8 +1,10 @@
 import pygame
+import os
 
 from pygame.sprite import Sprite
-from dino_runner.utils.constants import Y_POS, X_POS, JUMP_VEL, Y_POS_DUCK, RUNNING, JUMPING, DUCKING, DUCKING_SHIELD, JUMPING_SHIELD, RUNNING_SHIELD, SHIELD_TYPE, DEFAULT_TYPE, DUCK_IMG, JUMP_IMG, RUN_IMG
+from dino_runner.utils.constants import Y_POS, X_POS, JUMP_VEL, Y_POS_DUCK, RUNNING, JUMPING, DUCKING, DUCKING_SHIELD, JUMPING_SHIELD, RUNNING_SHIELD, SHIELD_TYPE, DUCKING_HAMMER, JUMPING_HAMMER, RUNNING_HAMMER, HAMMER_TYPE, DEFAULT_TYPE, DUCK_IMG, JUMP_IMG, RUN_IMG, IMG_DIR
 
+#POWER_UP_SFX = pygame.mixer.Sound('Sounds/assets_Sounds_upgrade.wav')
 
 class Dinosaur(Sprite):
     def __init__(self):
@@ -16,11 +18,14 @@ class Dinosaur(Sprite):
         self.dino_jump = False
         self.dino_duck = False
         self.jump_vel = JUMP_VEL
+        self.JUMP_SFX = pygame.mixer.Sound(os.path.join(IMG_DIR, 'Sounds/dinojump.wav'))
         self.setup_state()
 
     def setup_state(self):
         self.has_power_up = False
         self.shield = False
+        self.hammer = False
+        self.timerReset = False
         self.show_text = False
         self.shield_time_up = 0
 
@@ -36,6 +41,7 @@ class Dinosaur(Sprite):
             self.dino_run = False
             self.dino_jump = True
             self.dino_duck = False
+            self.JUMP_SFX.play()
         elif user_input[pygame.K_DOWN] or user_input[pygame.K_RALT] or user_input[pygame.K_s] and not self.dino_duck:
             self.dino_run = False
             self.dino_jump = False

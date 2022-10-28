@@ -1,6 +1,6 @@
 import pygame
 
-from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE
+from dino_runner.utils.constants import BG, GAME_OVER, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE
 from dino_runner.utils.text_utils import draw_message_component
 from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
@@ -32,6 +32,7 @@ class Game:
                 self.show_menu()
         pygame.display.quit()
         pygame.quit()
+    
     def run(self):
         # Game loop: events - update - draw
         self.playing = True
@@ -43,11 +44,13 @@ class Game:
             self.events()
             self.update()
             self.draw()
+    
     def events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.playing = False
                 self.running = False
+    
     def update(self):
         user_input = pygame.key.get_pressed()
         self.player.update(user_input)
@@ -59,6 +62,7 @@ class Game:
         self.score +=1
         if self.score % 100 == 0:
             self.game_speed += 5
+    
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255)) # #ffffff
@@ -79,6 +83,8 @@ class Game:
             self.screen.blit(BG, (image_width + self.x_pos_bg, self.y_pos_bg))
             self.x_pos_bg = 0
         self.x_pos_bg -= self.game_speed
+
+    
     def draw_score(self):
         draw_message_component(
             f"Score: {self.score}",
@@ -108,6 +114,7 @@ class Game:
                 self.running = False
             elif event.type == pygame.KEYDOWN:
                 self.run()
+
     def show_menu(self):
         self.screen.fill((255, 255, 255))
         half_screen_height = SCREEN_HEIGHT // 2
@@ -115,7 +122,6 @@ class Game:
         if self.death_count == 0:
             draw_message_component("Press any key to start", self.screen)
         else:
-            draw_message_component("Game Over :(", self.screen, pos_y_center=half_screen_height - 200)
             draw_message_component("Press any key to try again ;)", self.screen, pos_y_center=half_screen_height + 140)
             draw_message_component(
                 f"Your Score: {self.score}",
@@ -127,6 +133,7 @@ class Game:
                 self.screen,
                 pos_y_center=half_screen_height - 100
             )
+            self.screen.blit(GAME_OVER, (half_screen_height + 50, half_screen_height - 220))
             self.screen.blit(ICON, (half_screen_width - 40, half_screen_height - 60))
             
         pygame.display.update()
